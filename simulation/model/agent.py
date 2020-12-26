@@ -60,6 +60,9 @@ class Agent:
     def reproduce(self):
         pass
 
+    def get_obs(self):
+        pass
+
     def should_die(self):
         pass
 

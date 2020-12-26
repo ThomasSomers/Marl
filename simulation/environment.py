@@ -14,11 +14,9 @@ class Environment():
     def seed(self):
         for i in range(config.START_AMOUNT_PREYS):
             self.add_agent(Prey(environment=self, id="prey_" + str(StatisticsLogger.preys_amount)))
-            StatisticsLogger.log_new_prey()
 
         for j in range(config.START_AMOUNT_HUNTERS):
             self.add_agent(Hunter(environment=self, id= "hunter_" + str(StatisticsLogger.hunters_amount)))
-            StatisticsLogger.log_new_prey()
 
 
     def add_agent(self, agent):
@@ -29,6 +27,9 @@ class Environment():
 
     def get_agent_list(self):
         return self.agent_list
+
+    def set_agent_list(self, agent_list):
+        self.agent_list = agent_list
 
     def get_hunters_amount(self):
         counter = 0
@@ -51,6 +52,8 @@ class Environment():
             if isinstance(agent, Hunter):
                 rel_x, rel_y = agent.rel_post_closest_agent()
                 obs[agent.get_id()] = np.array([agent.age, agent.energy_level, rel_x, rel_y ])
+
+
         return obs
 
 

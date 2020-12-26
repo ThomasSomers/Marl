@@ -36,7 +36,6 @@ class StatisticsLogger:
 
     @staticmethod
     def log_eaten_prey():
-        StatisticsLogger.preys_amount -= 1
         StatisticsLogger.preys_eaten += 1
 
     @staticmethod

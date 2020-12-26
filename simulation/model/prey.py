@@ -29,7 +29,6 @@ class Prey(Agent):
 
     def die(self):
         self.alive = False
-        StatisticsLogger.log_dead_prey()
 
     def get_class(self):
         return Prey
@@ -41,6 +40,11 @@ class Prey(Agent):
             self.move_agent()
             self.should_reproduce()
         self.age += 1
+
+    def get_obs(self):
+        rel_x, rel_y = self.rel_post_closest_agent()
+
+        return self.age, rel_x, rel_y
 
 
     # UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3
@@ -60,7 +64,3 @@ class Prey(Agent):
 
         self.age += 1
 
-        rel_x, rel_y = self.rel_post_closest_agent()
-        obs = [self.age, rel_x, rel_y, self.alive]
-
-        return obs

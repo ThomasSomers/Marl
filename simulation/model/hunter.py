@@ -25,7 +25,6 @@ class Hunter(Agent):
         self.energy_level -= self.energy_to_reproduce
         self.environment.add_agent(
             Hunter(environment=self.environment, id="hunter_" + str(StatisticsLogger.hunters_amount)))
-        StatisticsLogger.log_new_hunter()
 
     def should_die(self):
         if self.age >= self.get_max_age() or self.energy_level <= 0:
@@ -34,7 +33,6 @@ class Hunter(Agent):
 
     def die(self):
         self.alive = False
-        StatisticsLogger.log_dead_hunter()
 
     def can_eat(self):
         for agent in self.environment.agent_list:
@@ -61,6 +59,12 @@ class Hunter(Agent):
         self.energy_level -= 1
         self.age += 1
 
+
+    def get_obs(self):
+        rel_x, rel_y = self.rel_post_closest_agent()
+
+        return self.age, self.energy_level, rel_x, rel_y
+
     # UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, REPRODUCE = 4
     def step_env(self, action):
         if action == 0:
@@ -86,7 +90,3 @@ class Hunter(Agent):
 
         if self.should_die():
             self.die()
-
-        rel_x, rel_y = self.rel_post_closest_agent()
-
-        return self.age, self.energy_level, rel_x, rel_y

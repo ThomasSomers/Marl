@@ -26,34 +26,34 @@ class HunterEnvironment_v0(gym.Env, MultiAgentEnv):
         return self.world.get_hunter_obs()
 
     def step(self, action: dict):
-
-        print(str(action))
-        for agent in self.world.get_agent_list():
-            if isinstance(agent, Hunter):
-                print(agent.get_id() + " " + str(agent.get_alive()))
-
         obs_dict = {}
         reward_dict = {}
         done_dict = {}
 
         all_done = False
 
-        iterable_agent_list = self.world.get_agent_list()
+        iterable_agent_list = list(self.world.get_agent_list())
 
         if self.world.get_hunters_amount() > 0:
             for agent in iterable_agent_list:
                 if isinstance(agent, Hunter):
-                    obs = np.array(agent.step_env(action[agent.get_id()]))
-                    obs_dict[agent.get_id()] = obs
-                    reward_dict[agent.get_id()] = 0
-                    done_dict[agent.get_id()] = not agent.get_alive()
-
-                    if not agent.get_alive():
-                        self.world.remove_agent(agent)
+                    agent.step_env(action[agent.get_id()])
                 else:
                     agent.step()
         else:
             all_done = True
+
+        iterable_agent_list = list(self.world.get_agent_list())
+
+        for agent in iterable_agent_list:
+            if isinstance(agent,Hunter):
+                obs_dict[agent.get_id()] = np.array(agent.get_obs())
+                reward_dict[agent.get_id()] = 0
+                done_dict[agent.get_id()] = not agent.get_alive()
+
+                if not agent.get_alive():
+                    self.world.remove_agent(agent)
+
 
         done_dict['__all__'] = all_done
 
