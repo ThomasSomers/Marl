@@ -14,8 +14,8 @@ class HunterEnvironment_v0(gym.Env, MultiAgentEnv):
 
         # Age, Energy, Relative x closest prey, Relative y closest prey
         self.observation_space = gym.spaces.Box(
-            low=np.array([0, 0, - config.SCREEN_WIDTH, -config.SCREEN_HEIGHT], dtype=np.float32), high=np.array(
-                [config.HUNTER_MAX_AGE, float('inf'), config.SCREEN_WIDTH, config.SCREEN_HEIGHT], dtype=np.float32),
+            low=np.array([0, 0, - config.SCREEN_WIDTH -1, -config.SCREEN_HEIGHT-1], dtype=np.float32), high=np.array(
+                [config.HUNTER_MAX_AGE, float('inf'), config.SCREEN_WIDTH+1, config.SCREEN_HEIGHT+1], dtype=np.float32),
             shape=(4,))
 
         self.world = Environment()
@@ -48,7 +48,8 @@ class HunterEnvironment_v0(gym.Env, MultiAgentEnv):
         for agent in iterable_agent_list:
             if isinstance(agent,Hunter):
                 obs_dict[agent.get_id()] = np.array(agent.get_obs())
-                reward_dict[agent.get_id()] = 0
+                #reward_dict[agent.get_id()] = (self.world.get_hunters_amount()) * config.TEAM_REWARD_SCALE + (agent.get_energy_level() * config.ENERGY_REWARD_SCALE )
+                reward_dict[agent.get_id()] = (self.world.get_hunters_amount())
                 done_dict[agent.get_id()] = not agent.get_alive()
 
                 if not agent.get_alive():

@@ -48,6 +48,9 @@ class Hunter(Agent):
     def get_class(self):
         return Hunter
 
+    def get_energy_level(self):
+        return self.energy_level
+
     def step(self):
         if self.should_die():
             self.die()
