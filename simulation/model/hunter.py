@@ -42,7 +42,8 @@ class Hunter(Agent):
 
     def eat(self, prey_to_eat):
         self.energy_level += self.energy_per_eaten_prey
-        self.environment.remove_agent(prey_to_eat)
+        # self.environment.remove_agent(prey_to_eat)
+        prey_to_eat.die()
         StatisticsLogger.log_eaten_prey()
 
     def get_class(self):

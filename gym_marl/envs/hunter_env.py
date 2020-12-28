@@ -43,10 +43,19 @@ class HunterEnvironment_v0(gym.Env, MultiAgentEnv):
         else:
             all_done = True
 
+        if self.world.get_hunters_amount() > 0:
+            for agent in iterable_agent_list:
+                if isinstance(agent, Hunter):
+                    agent.step_env(action[agent.get_id()])
+                else:
+                    agent.step()
+        else:
+            all_done = True
+
         iterable_agent_list = list(self.world.get_agent_list())
 
         for agent in iterable_agent_list:
-            if isinstance(agent,Hunter):
+            if isinstance(agent, Hunter):
                 obs_dict[agent.get_id()] = np.array(agent.get_obs())
                 reward_dict[agent.get_id()] = 0
                 done_dict[agent.get_id()] = not agent.get_alive()

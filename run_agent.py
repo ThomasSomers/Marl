@@ -3,28 +3,32 @@ from ray import tune
 from ray.rllib.models import ModelCatalog
 from ray.tune.registry import register_env
 
-from gym_marl.envs.hunter_env import HunterEnvironment_v0
+# from gym_marl.envs.hunter_env import HunterEnvironment_v0
+from gym_marl.envs.Prey_env import Prey_Environment_v0
 
 from dqn.dqn_model import DQNModel
 from dqn.dqn import DQNTrainer
 
 if __name__ == "__main__":
     ray.init()
-    select_env="hunter-v0"
-    register_env(select_env, lambda config: HunterEnvironment_v0() )
+    # select_env="hunter-v0"
+    select_env="prey-v0"
+    # register_env(select_env, lambda config: HunterEnvironment_v0())
+    register_env(select_env, lambda config: Prey_Environment_v0())
     ModelCatalog.register_custom_model("DQNModel", DQNModel)
 
     tune.run(
         DQNTrainer,
         # checkpoint_freq=10,
         checkpoint_at_end=True,
-        stop={"timesteps_total": 200000},
+        stop={"timesteps_total": 100000},
         config={
             "num_gpus": 0,
             "num_workers": 1,
             "framework": "torch",
             # "sample_batch_size": 50,
-            "env": "hunter-v0",
+            # "env": "hunter-v0",
+            "env": "prey-v0",
 
             ########################################
             # Parameters Agent

@@ -64,3 +64,7 @@ class Prey(Agent):
 
         self.age += 1
 
+        self.should_reproduce()
+        if self.should_die():
+            self.die()
+

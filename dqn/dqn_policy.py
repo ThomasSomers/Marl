@@ -38,7 +38,8 @@ class DQNPolicy(Policy):
         self.dqn_model = ModelCatalog.get_model_v2(
             obs_space=self.observation_space,
             action_space=self.action_space,
-            num_outputs=5, #5 for hunters, 4 for preys
+            # num_outputs=5, #5 for hunters, 4 for preys
+            num_outputs=4,  # 5 for hunters, 4 for preys
             name="DQNModel",
             model_config=self.config["dqn_model"],
             framework="torch",

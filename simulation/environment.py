@@ -39,6 +39,14 @@ class Environment():
                 counter += 1
         return counter
 
+    def get_preys_amount(self):
+        counter = 0
+
+        for agent in self.agent_list:
+            if isinstance(agent, Prey):
+                counter += 1
+        return counter
+
     def reset(self):
         StatisticsLogger.reset()
         self.agent_list = []
@@ -55,5 +63,15 @@ class Environment():
 
 
         return obs
+
+    def get_prey_obs(self):
+        obs = {}
+
+        for agent in self.agent_list:
+            if isinstance(agent,Prey):
+                rel_x, rel_y = agent.rel_post_closest_agent()
+                obs[agent.get_id()] = np.array([agent.age, rel_x, rel_y])
+        return obs
+
 
 
