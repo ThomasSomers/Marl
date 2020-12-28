@@ -18,7 +18,7 @@ class Hunter(Agent):
         super().move_agent()
 
     def should_reproduce(self):
-        if self.energy_level >= self.energy_to_reproduce:
+        if self.energy_level > self.energy_to_reproduce:
             self.reproduce()
 
     def reproduce(self):

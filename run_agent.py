@@ -18,7 +18,7 @@ if __name__ == "__main__":
         DQNTrainer,
         # checkpoint_freq=10,
         checkpoint_at_end=True,
-        stop={"timesteps_total": 200002000},
+        stop={"timesteps_total": 2000000},
         config={
             "num_gpus": 0,
             "num_workers": 1,

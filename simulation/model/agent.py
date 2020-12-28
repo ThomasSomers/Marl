@@ -92,6 +92,10 @@ class Agent:
                     tmp_x = x_diff
                     tmp_y = y_diff
 
+        if tmp_x == float('inf') and tmp_y == float('inf'):
+            tmp_x = config.SCREEN_WIDTH
+            tmp_y = config.SCREEN_HEIGHT
+
         return tmp_x, tmp_y
 
     def die(self):
